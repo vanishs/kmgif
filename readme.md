@@ -22,7 +22,7 @@ This Python program captures your main screen and saves the images as a GIF. The
 2. **Run the Program**:  
     Execute the Python script in your terminal or command prompt:
     ```bash
-    python screen_recorder.py
+    python kmgif.py
     ```
 
 3. **Start Recording**:  
