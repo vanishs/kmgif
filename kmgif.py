@@ -77,7 +77,7 @@ def finalize():
     print("Done!")
     sys.exit(0)
 
-logmov = 0
+
 is_start = False
 
 def on_key_release(key):
@@ -91,29 +91,22 @@ def on_key_release(key):
             is_start = True
 
 def on_key_press(key):
-    global is_start, logmov
+    global is_start
     if is_start:
         take_screenshot()
-        logmov = 3
 
 def on_click(x, y, button, pressed):
-    global is_start, logmov
+    global is_start
     if is_start:
         take_screenshot()
-        logmov = 3
 
 def on_scroll(x, y, dx, dy):
-    global is_start, logmov
+    global is_start
     if is_start:
         take_screenshot()
-        logmov = 3
 
 def on_move(x, y):
-    global is_start, logmov
-    if is_start and logmov != 0:
-        logmov -= 1
-        if logmov == 0:
-            take_screenshot()
+    pass
 
 # Start listening to keyboard and mouse
 key_listener = keyboard.Listener(
