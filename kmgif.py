@@ -5,6 +5,7 @@ from pynput import keyboard, mouse
 import pyautogui
 from pynput.keyboard import Key
 from PIL import Image, ImageDraw
+import time  # Import time module
 
 print("Please press F10 to start and stop")
 
@@ -78,32 +79,55 @@ def finalize():
     sys.exit(0)
 
 
+isTakeScreenshots=False
+def take_multiple_screenshots(times):
+    global isTakeScreenshots
+    if isTakeScreenshots:
+        return
+    isTakeScreenshots=True
+    for _ in range(times):
+        time.sleep(0.05)  # 50 milliseconds
+        take_screenshot()
+    isTakeScreenshots=False
+
+def take_one_screenshot():
+    global isTakeScreenshots
+    if isTakeScreenshots:
+        return
+    take_screenshot()
+
 is_start = False
 
 def on_key_release(key):
     global is_start
     if key == Key.f10:
-        take_screenshot()
+        take_one_screenshot()
         if is_start:
             finalize()
         else:
-            print("Starting...")
+            print("Recording...")
             is_start = True
+    else:
+        if is_start:
+            take_one_screenshot()
+            # Start a new thread to handle the additional screenshots
+            threading.Thread(target=take_multiple_screenshots, args=(1,)).start()
 
 def on_key_press(key):
-    global is_start
-    if is_start:
-        take_screenshot()
+    pass
 
 def on_click(x, y, button, pressed):
     global is_start
-    if is_start:
-        take_screenshot()
+    if is_start and not pressed:  # Check if the button is pressed UP
+        # Take a screenshot immediately
+        take_one_screenshot()
+        # Start a new thread to handle the additional screenshots
+        threading.Thread(target=take_multiple_screenshots, args=(20,)).start()
 
 def on_scroll(x, y, dx, dy):
     global is_start
     if is_start:
-        take_screenshot()
+        take_one_screenshot()
 
 def on_move(x, y):
     pass
