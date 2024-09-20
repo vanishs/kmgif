@@ -112,8 +112,6 @@ def on_key_release(key):
     else:
         if is_start:
             take_one_screenshot()
-            # Start a new thread to handle the additional screenshots
-            threading.Thread(target=take_multiple_screenshots, args=(1,)).start()
 
 def on_key_press(key):
     pass
